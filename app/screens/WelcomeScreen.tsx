@@ -1,20 +1,23 @@
 import React from "react";
 import { StyleSheet, View, Text, ImageBackground, Image } from "react-native";
 
-import colors from "../config/colors";
+import Button from "../components/Button";
 
 export default () => {
   return (
     <ImageBackground
+      blurRadius={10}
       style={styles.background}
       source={require("../assets/background.jpg")}
     >
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require("../assets/logo-red.png")} />
-        <Text>Easy Education</Text>
+        <Text style={styles.tagline}>Easy Education</Text>
       </View>
-      <View style={styles.loginButton}></View>
-      <View style={styles.registerButton}></View>
+      <View style={styles.buttonsContainer}>
+        <Button onPress={console.log} title="Login" />
+        <Button onPress={console.log} title="Register" color="secondary" />
+      </View>
     </ImageBackground>
   );
 };
@@ -27,10 +30,9 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "flex-end",
   },
-  loginButton: {
+  buttonsContainer: {
+    padding: 20,
     width: "100%",
-    height: 70,
-    backgroundColor: colors.primary,
   },
   logo: {
     width: 100,
@@ -41,9 +43,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 70,
   },
-  registerButton: {
-    width: "100%",
-    height: 70,
-    backgroundColor: colors.secondary,
+  tagline: {
+    fontSize: 25,
+    fontWeight: "600",
+    paddingVertical: 20,
   },
 });
