@@ -1,20 +1,41 @@
 import React from "react";
-import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
+import { View, TextInput, StyleSheet, TextInputProps } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons"; // Make sure this is the correct import for the icons you want
 
-interface Props extends TextInputProps {}
+import defaultStyles from "../config/styles";
 
-export default (props: Props) => {
-  return <TextInput {...props} style={styles.input} />;
-};
+interface Props extends TextInputProps {
+  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
+}
+
+function AppTextInput({ icon, ...otherProps }: Props) {
+  return (
+    <View style={styles.container}>
+      {icon && (
+        <MaterialCommunityIcons
+          name={icon} // Passing the icon name as a string
+          size={20}
+          color={defaultStyles.colors.medium}
+          style={styles.icon}
+        />
+      )}
+      <TextInput style={defaultStyles.text} {...otherProps} />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-  input: {
+  container: {
+    backgroundColor: defaultStyles.colors.light,
+    borderRadius: 25,
+    flexDirection: "row",
     width: "100%",
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
+    padding: 15,
+    marginVertical: 10,
+  },
+  icon: {
+    marginRight: 10,
   },
 });
+
+export default AppTextInput;

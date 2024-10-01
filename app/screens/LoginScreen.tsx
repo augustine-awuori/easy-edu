@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 25,
     marginTop: 20,
   },
   googleButtonText: {
