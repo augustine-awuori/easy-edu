@@ -1,74 +1,68 @@
 import React from "react";
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  ImageBackground,
-} from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { Image, StyleSheet } from "react-native";
+import * as Yup from "yup";
 
-import colors from "../config/colors";
-import TextInput from "../components/TextInput";
+import Screen from "../components/Screen";
+import { Form, FormField, SubmitButton } from "../components/forms";
 
-export default () => {
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Name"),
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().required().min(4).label("Password"),
+});
+
+function RegisterScreen() {
   return (
-    <ImageBackground
-      blurRadius={10}
-      style={styles.background}
-      source={require("../assets/background.jpg")}
-    >
-      <View style={styles.container}>
-        <Image style={styles.logo} source={require("../assets/logo-red.png")} />
+    <Screen style={styles.container}>
+      <Image style={styles.logo} source={require("../assets/logo-red.png")} />
 
-        <TextInput
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize="none"
+      <Form
+        initialValues={{ name: "", email: "", password: "" }}
+        onSubmit={(values) => console.log(values)}
+        validationSchema={validationSchema}
+      >
+        <FormField
+          autoCorrect={false}
+          icon="account"
+          name="name"
+          placeholder="Name"
         />
-        <TextInput placeholder="Full Name" autoCapitalize="none" />
-        <TextInput placeholder="Password" secureTextEntry />
-        <Text>or</Text>
-        <TouchableOpacity style={styles.googleButton}>
-          <AntDesign name="google" size={24} color="white" />
-          <Text style={styles.googleButtonText}>Register with Google</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+        <FormField
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="email"
+          keyboardType="email-address"
+          name="email"
+          placeholder="Email"
+          textContentType="emailAddress"
+        />
+        <FormField
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="lock"
+          name="password"
+          placeholder="Password"
+          secureTextEntry
+          textContentType="password"
+        />
+        <SubmitButton title="Register" />
+      </Form>
+    </Screen>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  background: {
-    alignItems: "center",
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
   container: {
-    flex: 1,
-    alignItems: "center",
+    padding: 10,
     justifyContent: "center",
-    paddingHorizontal: 5,
   },
   logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 40,
-  },
-  googleButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.secondary,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  googleButtonText: {
-    color: colors.white,
-    fontSize: 16,
-    marginLeft: 10,
+    width: 80,
+    height: 80,
+    alignSelf: "center",
+    marginTop: 50,
+    marginBottom: 20,
   },
 });
+
+export default RegisterScreen;

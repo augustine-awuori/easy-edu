@@ -1,73 +1,62 @@
 import React from "react";
-import {
-  Image,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  ImageBackground,
-} from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { StyleSheet, Image } from "react-native";
+import * as Yup from "yup";
 
-import colors from "../config/colors";
-import TextInput from "../components/TextInput";
+import { Form, FormField, SubmitButton } from "../components/forms";
+import Screen from "../components/Screen";
 
-export default () => {
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().required().min(4).label("Password"),
+});
+
+function LoginScreen() {
+  const handleLogin = () => {};
+
   return (
-    <ImageBackground
-      blurRadius={10}
-      style={styles.background}
-      source={require("../assets/background.jpg")}
-    >
-      <View style={styles.container}>
-        <Image style={styles.logo} source={require("../assets/logo-red.png")} />
+    <Screen style={styles.container}>
+      <Image style={styles.logo} source={require("../assets/logo-red.png")} />
 
-        <TextInput
-          placeholder="Email"
-          keyboardType="email-address"
+      <Form
+        initialValues={{ email: "", password: "" }}
+        onSubmit={handleLogin}
+        validationSchema={validationSchema}
+      >
+        <FormField
           autoCapitalize="none"
+          autoCorrect={false}
+          icon="email"
+          keyboardType="email-address"
+          name="email"
+          placeholder="Email"
+          textContentType="emailAddress"
         />
-        <TextInput placeholder="Password" secureTextEntry />
-        <Text>or</Text>
-        <TouchableOpacity style={styles.googleButton}>
-          <AntDesign name="google" size={24} color="white" />
-          <Text style={styles.googleButtonText}>Login with Google</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+        <FormField
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="lock"
+          name="password"
+          placeholder="Password"
+          secureTextEntry
+          textContentType="password"
+        />
+        <SubmitButton title="Login" />
+      </Form>
+    </Screen>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  background: {
-    alignItems: "center",
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 5,
+    padding: 10,
   },
   logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 40,
-  },
-  googleButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.primary,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    marginTop: 20,
-  },
-  googleButtonText: {
-    color: colors.white,
-    fontSize: 16,
-    marginLeft: 10,
+    width: 80,
+    height: 80,
+    alignSelf: "center",
+    marginTop: 50,
+    marginBottom: 20,
   },
 });
+
+export default LoginScreen;
