@@ -14,6 +14,7 @@ export default function App() {
     <Stack.Navigator
       screenOptions={{
         animation: "slide_from_right",
+        headerTitleAlign: "center",
       }}
     >
       <Stack.Screen
