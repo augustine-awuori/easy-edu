@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoginScreen from "./app/screens/LoginScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
+import routes from "./app/navigation/routes";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 
 export default function App() {
@@ -10,23 +11,22 @@ export default function App() {
 
   const StackNavigator = () => (
     <Stack.Navigator
-      initialRouteName="register"
       screenOptions={{
         animation: "slide_from_right",
       }}
     >
       <Stack.Screen
-        name="login"
+        name={routes.LOGIN}
         component={LoginScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="register"
+        name={routes.REGISTER}
         component={RegisterScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="welcome"
+        name={routes.WELCOME}
         component={WelcomeScreen}
         options={{ headerShown: false }}
       />
