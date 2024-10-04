@@ -10,7 +10,6 @@ import routes from "../navigation/routes";
 import useUser from "../hooks/useUser";
 
 const schema = Yup.object().shape({
-  name: Yup.string().required().label("Name"),
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(4).label("Password"),
 });
@@ -22,7 +21,7 @@ interface Props {
 }
 
 function RegisterScreen({ navigation }: Props) {
-  const { user, loginWithGoogle } = useUser();
+  const { user, loginWithEmailAndPassword, loginWithGoogle } = useUser();
 
   useEffect(() => {
     if (user) navigation.navigate(routes.HOME);
@@ -34,9 +33,8 @@ function RegisterScreen({ navigation }: Props) {
 
   const navigateToLoginScreen = () => navigation.navigate("login");
 
-  const handleSubmit = (info: Info) => {
-    console.log(info);
-  };
+  const handleSubmit = async ({ email, password }: Info) =>
+    await loginWithEmailAndPassword(email, password);
 
   return (
     <ImageBackground
@@ -50,12 +48,6 @@ function RegisterScreen({ navigation }: Props) {
         onSubmit={(values) => handleSubmit(values as Info)}
         validationSchema={schema}
       >
-        <FormField
-          autoCorrect={false}
-          icon="account"
-          name="name"
-          placeholder="Name"
-        />
         <FormField
           autoCapitalize="none"
           autoCorrect={false}

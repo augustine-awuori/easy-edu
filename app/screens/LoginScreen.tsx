@@ -9,23 +9,26 @@ import colors from "../config/colors";
 import useUser from "../hooks/useUser";
 import routes from "../navigation/routes";
 
-const validationSchema = Yup.object().shape({
+const schema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(4).label("Password"),
 });
+
+type Info = Yup.InferType<typeof schema>;
 
 interface Props {
   navigation: NavigationProp<any>;
 }
 
 function LoginScreen({ navigation }: Props) {
-  const { user, loginWithGoogle } = useUser();
+  const { user, loginWithEmailAndPassword, loginWithGoogle } = useUser();
 
   useEffect(() => {
     if (user) navigation.navigate(routes.HOME);
   }, [user]);
 
-  const handleLogin = () => {};
+  const handleLogin = async ({ email, password }: Info) =>
+    await loginWithEmailAndPassword(email, password);
 
   const handleRegistrationWithGoogle = async () => {
     await loginWithGoogle();
@@ -40,11 +43,10 @@ function LoginScreen({ navigation }: Props) {
       source={require("../assets/background.jpg")}
     >
       <Image style={styles.logo} source={require("../assets/logo-red.png")} />
-
       <Form
         initialValues={{ email: "", password: "" }}
-        onSubmit={handleLogin}
-        validationSchema={validationSchema}
+        onSubmit={(values) => handleLogin(values as Info)}
+        validationSchema={schema}
       >
         <FormField
           autoCapitalize="none"
