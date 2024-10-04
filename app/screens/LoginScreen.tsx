@@ -7,6 +7,7 @@ import { NavigationProp } from "@react-navigation/native";
 import Button from "../components/Button";
 import colors from "../config/colors";
 import useUser from "../hooks/useUser";
+import routes from "../navigation/routes";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -21,7 +22,7 @@ function LoginScreen({ navigation }: Props) {
   const { user, loginWithGoogle } = useUser();
 
   useEffect(() => {
-    if (user) navigation.navigate("welcome");
+    if (user) navigation.navigate(routes.HOME);
   }, [user]);
 
   const handleLogin = () => {};

@@ -5,8 +5,9 @@ import * as Yup from "yup";
 
 import { Form, FormField, SubmitButton } from "../components/forms";
 import Button from "../components/Button";
-import useUser from "../hooks/useUser";
 import colors from "../config/colors";
+import routes from "../navigation/routes";
+import useUser from "../hooks/useUser";
 
 const schema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -24,7 +25,7 @@ function RegisterScreen({ navigation }: Props) {
   const { user, loginWithGoogle } = useUser();
 
   useEffect(() => {
-    if (user) navigation.navigate("welcome");
+    if (user) navigation.navigate(routes.HOME);
   }, [user]);
 
   const handleRegistrationWithGoogle = async () => {

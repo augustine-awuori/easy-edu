@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, ImageBackground, Image } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
 
 import Button from "../components/Button";
+import routes from "../navigation/routes";
+import useUser from "../hooks/useUser";
 
-export default () => {
+interface Props {
+  navigation: NavigationProp<any>;
+}
+
+export default ({ navigation }: Props) => {
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user) navigation.navigate(routes.HOME);
+  }, [user]);
+
   return (
     <ImageBackground
       blurRadius={10}
@@ -15,8 +28,15 @@ export default () => {
         <Text style={styles.tagline}>Easy Education</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <Button onPress={console.log} title="Login" />
-        <Button onPress={console.log} title="Register" color="secondary" />
+        <Button
+          onPress={() => navigation.navigate(routes.LOGIN)}
+          title="Login"
+        />
+        <Button
+          onPress={() => navigation.navigate(routes.REGISTER)}
+          title="Register"
+          color="secondary"
+        />
       </View>
     </ImageBackground>
   );
