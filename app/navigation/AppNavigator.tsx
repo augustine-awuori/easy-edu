@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome } from "@expo/vector-icons";
 
-import AccountScreen from "../screens/AccountScreen";
+import { AccountScreen } from "../screens";
 import LessonsNavigator from "./LessonsNavigator";
 import routes from "./routes";
 
