@@ -6,6 +6,7 @@ export default {
   LESSONS: "lessons",
   LESSONS_NAVIGATOR: "lessons navigator",
   LOGIN: "login",
+  MESSAGES: "messages",
   REGISTER: "register",
   WELCOME: "welcome",
 };

@@ -26,7 +26,6 @@ const AppNavigator = () => (
         tabBarIcon: ({ size, color }) => (
           <FontAwesome name="home" size={size} color={color} />
         ),
-        headerShown: false,
       }}
     />
     <Tab.Screen

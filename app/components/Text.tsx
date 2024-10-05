@@ -1,13 +1,9 @@
-import React, { PropsWithChildren } from "react";
-import { Text } from "react-native";
+import React from "react";
+import { Text, TextProps } from "react-native";
 
 import defaultStyles from "../config/styles";
 
-interface Props extends PropsWithChildren {
-  style?: object;
-}
-
-function AppText({ children, style }: Props) {
+function AppText({ children, style }: TextProps) {
   return <Text style={[defaultStyles.text, style]}>{children}</Text>;
 }
 
