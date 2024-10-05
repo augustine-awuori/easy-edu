@@ -8,8 +8,17 @@ import LessonsScreen from "../screens/LessonsScreen";
 const Stack = createNativeStackNavigator();
 
 const LessonsNavigator = () => (
-  <Stack.Navigator screenOptions={{ animation: "fade_from_bottom" }}>
-    <Stack.Screen name={routes.LESSONS} component={LessonsScreen} />
+  <Stack.Navigator
+    screenOptions={{
+      animation: "fade_from_bottom",
+      headerTitleAlign: "center",
+    }}
+  >
+    <Stack.Screen
+      name={routes.LESSONS}
+      component={LessonsScreen}
+      options={{ title: "All Lessons" }}
+    />
     <Stack.Screen name={routes.LESSON} component={LessonScreen} />
   </Stack.Navigator>
 );
