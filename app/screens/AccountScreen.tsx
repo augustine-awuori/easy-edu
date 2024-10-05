@@ -58,7 +58,7 @@ const AccountScreen: React.FC<Props> = ({ navigation }) => {
         <ListItem
           title={user?.displayName || "No name"}
           subTitle={user?.email || "No email"}
-          image={require("../assets/background.jpg")}
+          image={user?.photoURL || require("../assets/background.jpg")}
         />
       </View>
       <View style={styles.container}>
