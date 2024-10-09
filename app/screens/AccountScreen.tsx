@@ -38,7 +38,6 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-// Make navigation optional by adding '?' to its type
 interface Props {
   navigation: NavigationProp<any>;
 }
@@ -47,7 +46,6 @@ const AccountScreen: React.FC<Props> = ({ navigation }) => {
   const { user } = useUser();
 
   if (!user && navigation) {
-    // Check if navigation exists before using it
     navigation.navigate(routes.WELCOME);
     return null;
   }

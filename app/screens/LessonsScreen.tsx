@@ -1,10 +1,47 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
 
-export default () => {
-  return <View style={styles.container}></View>;
+import { Course, getCourses } from "../services/data";
+import Card from "../components/Card";
+import colors from "../config/colors";
+import routes from "../navigation/routes";
+
+interface Props {
+  navigation: NavigationProp<any>;
+}
+
+export default ({ navigation }: Props) => {
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    setCourses(getCourses());
+  }, []);
+
+  const viewCourse = (course: Course) =>
+    navigation.navigate(routes.LESSON, course);
+
+  return (
+    <FlatList
+      data={courses}
+      keyExtractor={(c) => c.name}
+      style={styles.container}
+      renderItem={({ item }) => (
+        <Card
+          title={item.name}
+          subTitle={item.department}
+          onPress={() => viewCourse(item)}
+          imageUrl={item.image}
+          thumbnailUrl={item.image}
+        />
+      )}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: colors.light,
+    padding: 10,
+  },
 });
