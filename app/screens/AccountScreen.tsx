@@ -43,7 +43,7 @@ interface Props {
 }
 
 const AccountScreen: React.FC<Props> = ({ navigation }) => {
-  const { user } = useUser();
+  const { user, logout } = useUser();
 
   if (!user && navigation) {
     navigation.navigate(routes.WELCOME);
@@ -76,6 +76,11 @@ const AccountScreen: React.FC<Props> = ({ navigation }) => {
               onPress={() => navigation.navigate(item.targetScreen)}
             />
           )}
+        />
+        <ListItem
+          title="Log Out"
+          IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+          onPress={async () => await logout()}
         />
       </View>
     </Screen>
