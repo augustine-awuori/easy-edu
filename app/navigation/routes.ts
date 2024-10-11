@@ -1,5 +1,6 @@
 export default {
   ACCOUNT: "account",
+  COURSE_EDIT: "course edit",
   HOME_NAVIGATOR: "home navigator",
   HOME: "home",
   LESSON: "lesson",

@@ -1,20 +1,25 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { AccountScreen } from "../screens";
+import {
+  AccountScreen,
+  // CourseEditScreen
+} from "../screens";
 import LessonsNavigator from "./LessonsNavigator";
+import NewCourseButton from "./NewCourseButton";
 import routes from "./routes";
+import colors from "../config/colors";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => (
   <Tab.Navigator
     screenOptions={{
-      tabBarActiveBackgroundColor: "tomato",
-      tabBarActiveTintColor: "white",
+      tabBarActiveBackgroundColor: colors.primary,
+      tabBarActiveTintColor: colors.white,
       tabBarInactiveBackgroundColor: "#eee",
-      tabBarInactiveTintColor: "#000",
+      tabBarInactiveTintColor: colors.black,
       headerShown: false,
       headerTitleAlign: "center",
     }}
@@ -28,6 +33,24 @@ const AppNavigator = () => (
         ),
         title: "Lessons",
       }}
+    />
+    <Tab.Screen
+      name={routes.COURSE_EDIT}
+      component={() => <></>}
+      options={({ navigation }) => ({
+        tabBarButton: () => (
+          <NewCourseButton
+            onPress={() => navigation.navigate(routes.COURSE_EDIT)}
+          />
+        ),
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons
+            name="plus-circle"
+            color={color}
+            size={size}
+          />
+        ),
+      })}
     />
     <Tab.Screen
       options={{
