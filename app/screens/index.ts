@@ -1,4 +1,5 @@
 export { default as AccountScreen } from "./AccountScreen";
+export { default as CourseEditScreen } from "./CourseEditScreen";
 export { default as HomeScreen } from "./HomeScreen";
 export { default as LessonScreen } from "./LessonScreen";
 export { default as LessonsScreen } from "./LessonsScreen";

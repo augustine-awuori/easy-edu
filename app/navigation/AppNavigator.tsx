@@ -4,6 +4,7 @@ import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import {
   AccountScreen,
+  CourseEditScreen,
   // CourseEditScreen
 } from "../screens";
 import LessonsNavigator from "./LessonsNavigator";
@@ -36,7 +37,7 @@ const AppNavigator = () => (
     />
     <Tab.Screen
       name={routes.COURSE_EDIT}
-      component={() => <></>}
+      component={CourseEditScreen}
       options={({ navigation }) => ({
         tabBarButton: () => (
           <NewCourseButton
