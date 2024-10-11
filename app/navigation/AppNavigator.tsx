@@ -2,11 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import {
-  AccountScreen,
-  CourseEditScreen,
-  // CourseEditScreen
-} from "../screens";
+import { AccountScreen, CourseEditScreen } from "../screens";
 import LessonsNavigator from "./LessonsNavigator";
 import NewCourseButton from "./NewCourseButton";
 import routes from "./routes";
