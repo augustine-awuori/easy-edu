@@ -1,8 +1,11 @@
+import { CourseInfo } from "../screens/CourseEditScreen";
 import client from "./client";
 
 const endpoint = "/courses";
 
-interface NewCourse {}
+export interface NewCourse extends CourseInfo {
+  category: string;
+}
 
 export const addCourse = (
   course: NewCourse,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -8,32 +8,56 @@ import {
   AppFormPicker as Picker,
   SubmitButton,
 } from "../components/forms";
+import { Item } from "../components/Picker";
+import coursesApi from "../api/courses";
 import FormImagePicker from "../components/forms/FormImagePicker";
+import imageStorage from "../db/image";
 import Screen from "../components/Screen";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
-  category: Yup.object().required().nullable().label("Category"),
+  category: Yup.object().required().nullable().label("Category").required(),
   description: Yup.string().label("Description"),
   images: Yup.array().min(1, "Please select at least one image.").required(),
   title: Yup.string().required().min(1).label("Title"),
 });
 
-type Info = Yup.InferType<typeof validationSchema>;
+export type CourseInfo = Yup.InferType<typeof validationSchema>;
 
 export default () => {
-  const handleSubmit = async (info: Info) => {
-    console.log("info", info);
+  const [progress, setProgress] = useState(0);
+  const [uploadVisible, setUploadVisible] = useState(false);
+
+  const handleSubmit = async (info: CourseInfo) => {
+    const { category, title, description } = info;
+
+    setUploadVisible(true);
+    setProgress(0);
+    await coursesApi.addCourse(
+      {
+        images: await imageStorage.saveImages(info.images),
+        category: (category as Item).value,
+        title,
+        description,
+      },
+      setProgress
+    );
   };
 
   return (
     <Screen style={styles.container}>
+      <UploadScreen
+        progress={progress}
+        visible={uploadVisible}
+        onDone={() => setUploadVisible(false)}
+      />
       <Form
         initialValues={{
           title: "",
           description: "",
           category: "",
         }}
-        onSubmit={(values) => handleSubmit(values as unknown as Info)}
+        onSubmit={(values) => handleSubmit(values as unknown as CourseInfo)}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />

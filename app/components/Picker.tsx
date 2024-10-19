@@ -17,7 +17,7 @@ import Text from "./Text";
 
 export type Item = {
   label: string;
-  value: number | string;
+  value: string;
 };
 
 interface Props {
