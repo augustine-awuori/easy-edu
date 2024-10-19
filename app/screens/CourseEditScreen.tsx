@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
+import { Toast } from "toastify-react-native";
 import * as Yup from "yup";
 
 import {
@@ -15,14 +16,14 @@ import imageStorage from "../db/image";
 import Screen from "../components/Screen";
 import UploadScreen from "./UploadScreen";
 
-const validationSchema = Yup.object().shape({
+const schema = Yup.object().shape({
   category: Yup.object().required().nullable().label("Category").required(),
   description: Yup.string().label("Description"),
   images: Yup.array().min(1, "Please select at least one image.").required(),
   title: Yup.string().required().min(1).label("Title"),
 });
 
-export type CourseInfo = Yup.InferType<typeof validationSchema>;
+export type CourseInfo = Yup.InferType<typeof schema>;
 
 export default () => {
   const [progress, setProgress] = useState(0);
@@ -33,7 +34,7 @@ export default () => {
 
     setUploadVisible(true);
     setProgress(0);
-    await coursesApi.addCourse(
+    const res = await coursesApi.addCourse(
       {
         images: await imageStorage.saveImages(info.images),
         category: (category as Item).value,
@@ -42,6 +43,10 @@ export default () => {
       },
       setProgress
     );
+
+    res.ok
+      ? Toast.success("Courses created successfully")
+      : Toast.error("Something went wrong! Course isn't saveds");
   };
 
   return (
@@ -58,7 +63,7 @@ export default () => {
           category: "",
         }}
         onSubmit={(values) => handleSubmit(values as unknown as CourseInfo)}
-        validationSchema={validationSchema}
+        validationSchema={schema}
       >
         <FormImagePicker name="images" />
         <FormField maxLength={255} name="title" placeholder="Title" />
