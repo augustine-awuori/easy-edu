@@ -9,18 +9,15 @@ function FormImagePicker({ name }: { name: string }) {
   const { errors, setFieldValue, touched, values } =
     useFormikContext<FormValues>();
 
-  const imageUris = values[name] as unknown as string[];
+  const imageUris = (values[name] as unknown as string[]) || [];
 
-  const handleAdd = (uri: string) => {
-    setFieldValue(name, [...imageUris, uri]);
-  };
+  const handleAdd = (uri: string) => setFieldValue(name, [...imageUris, uri]);
 
-  const handleRemove = (uri: string) => {
+  const handleRemove = (uri: string) =>
     setFieldValue(
       name,
       imageUris.filter((imageUri) => imageUri !== uri)
     );
-  };
 
   return (
     <>
@@ -29,7 +26,10 @@ function FormImagePicker({ name }: { name: string }) {
         onAddImage={handleAdd}
         onRemoveImage={handleRemove}
       />
-      <ErrorMessage error={errors[name]} visible={Boolean(touched[name])} />
+      <ErrorMessage
+        error={errors[name]}
+        visible={Boolean(touched[name] || errors[name])}
+      />
     </>
   );
 }

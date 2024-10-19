@@ -1,6 +1,14 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDQTc4T8XE7MzFYDXMe5d0IUBZu3ku4gpQ",
@@ -15,3 +23,13 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+
+export default {
+  auth: getAuth(),
+  db: getFirestore(),
+  deleteObject,
+  getDownloadURL,
+  ref,
+  storage: getStorage(app),
+  uploadBytes,
+};

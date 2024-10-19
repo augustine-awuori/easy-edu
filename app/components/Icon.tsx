@@ -2,12 +2,11 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-// Define the prop types
 interface IconProps {
-  name: keyof typeof MaterialCommunityIcons.glyphMap; // Icon name must match MaterialCommunityIcons
-  size?: number; // Optional size with a default value
-  backgroundColor?: string; // Optional background color
-  iconColor?: string; // Optional icon color
+  name: keyof typeof MaterialCommunityIcons.glyphMap;
+  size?: number;
+  backgroundColor?: string;
+  iconColor?: string;
 }
 
 const Icon: React.FC<IconProps> = ({
@@ -28,7 +27,6 @@ const Icon: React.FC<IconProps> = ({
   );
 };
 
-// Style the icon container
 const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",

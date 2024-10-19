@@ -40,9 +40,12 @@ function ImageInput({ imageUri, onChangeImage }: Props) {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
+        base64: true,
       });
-      if (!result.canceled)
-        onChangeImage(result.assets[0] as unknown as string);
+      if (!result.canceled) {
+        const base64Image = `data:image/png;base64,${result.assets[0].base64}`;
+        onChangeImage(base64Image);
+      }
     } catch (error) {
       console.log("Error reading an image", error);
     }
