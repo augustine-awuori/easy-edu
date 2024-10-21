@@ -29,10 +29,10 @@ export default ({ navigation }: Props) => {
       renderItem={({ item }) => (
         <Card
           title={item.name}
-          subTitle={item.department}
+          subTitle={item.department.label}
           onPress={() => viewCourse(item)}
-          imageUrl={item.image}
-          thumbnailUrl={item.image}
+          imageUrl={item.images[0]}
+          thumbnailUrl={item.images[0]}
         />
       )}
     />

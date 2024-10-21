@@ -4,12 +4,7 @@ import { DimensionValue } from "react-native";
 
 import { FormValues } from "./AppForm";
 import ErrorMessage from "./ErrorMessage";
-import Picker from "../Picker";
-
-type Item = {
-  label: string;
-  value: number | string;
-};
+import Picker, { Item } from "../Picker";
 
 interface Props {
   items: Item[];

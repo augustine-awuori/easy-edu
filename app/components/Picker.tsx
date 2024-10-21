@@ -17,7 +17,7 @@ import Text from "./Text";
 
 export type Item = {
   label: string;
-  value: string;
+  _id: string;
 };
 
 interface Props {
@@ -27,7 +27,7 @@ interface Props {
   onSelectItem: (item: Item) => void;
   PickerItemComponent?: React.FC<{ item: Item; onPress: () => void }>;
   placeholder: string;
-  selectedItem?: Item;
+  selectedItem?: Item | undefined;
   width?: DimensionValue;
 }
 
@@ -73,7 +73,7 @@ function AppPicker({
           <Button title="Close" onPress={() => setModalVisible(false)} />
           <FlatList
             data={items}
-            keyExtractor={(item) => item.value.toString()}
+            keyExtractor={(item) => item._id}
             numColumns={numberOfColumns}
             renderItem={({ item }) => (
               <PickerItemComponent

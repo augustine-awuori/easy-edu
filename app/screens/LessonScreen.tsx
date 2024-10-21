@@ -11,16 +11,14 @@ interface Props {
 }
 
 export default ({ route }: Props) => {
-  const { department, image, lecturerId, name } = route.params as Course;
-
-  const lecturer = findLecturerById(lecturerId);
+  const { department, images, lecturer, name } = route.params as Course;
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: image }} />
+      <Image style={styles.image} source={{ uri: images[0] }} />
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>
-          {name} ({department}){" "}
+          {name} ({department.label}){" "}
         </Text>
         <View style={styles.userContainer}>
           <ListItem

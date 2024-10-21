@@ -10,6 +10,7 @@ import {
   SubmitButton,
 } from "../components/forms";
 import { Item } from "../components/Picker";
+import { useDepartments } from "../hooks";
 import coursesApi from "../api/courses";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import imageStorage from "../db/image";
@@ -28,6 +29,7 @@ export type CourseInfo = Yup.InferType<typeof schema>;
 export default () => {
   const [progress, setProgress] = useState(0);
   const [uploadVisible, setUploadVisible] = useState(false);
+  const { departments } = useDepartments();
 
   const handleSubmit = async (info: CourseInfo) => {
     const { category, title, description } = info;
@@ -38,7 +40,7 @@ export default () => {
     const res = await coursesApi.addCourse(
       {
         images,
-        category: (category as Item).value,
+        category: (category as Item)._id,
         title,
         description,
       },
@@ -72,7 +74,7 @@ export default () => {
         <FormField maxLength={255} name="title" placeholder="Title" />
         <Picker
           name="category"
-          items={[{ label: "Computing", value: "s" }]}
+          items={departments}
           placeholder="Course Category"
         />
         <FormField

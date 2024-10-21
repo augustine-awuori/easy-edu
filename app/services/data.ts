@@ -1,4 +1,3 @@
-// Lecturer interface
 export interface Lecturer {
   id: string;
   name: string;
@@ -6,19 +5,20 @@ export interface Lecturer {
   profileImage: string;
 }
 
-// Course interface
-export interface Course {
-  name: string;
-  lectureId: string;
-  department: string;
-  image: string;
-  lecturerId: string; // Link to the lecturer
+export interface Department {
+  _id: string;
+  label: string;
 }
 
-// Dummy image URL
+export interface Course {
+  name: string;
+  department: Department;
+  images: string[];
+  lecturer: Lecturer;
+}
+
 const imageUrl = "https://picsum.photos/200/300";
 
-// Lecturers array
 const lecturers: Lecturer[] = [
   {
     id: "L1",
@@ -88,100 +88,62 @@ const lecturers: Lecturer[] = [
   },
 ];
 
-// Courses array
+export const departments: Department[] = [
+  { _id: "1", label: "Computer Science" },
+  { _id: "2", label: "Business Administration" },
+  { _id: "3", label: "Mechanical Engineering" },
+  { _id: "4", label: "Biological Sciences" },
+  { _id: "5", label: "Mathematics" },
+  { _id: "6", label: "Chemistry" },
+];
+
 const courses: Course[] = [
   {
     name: "Introduction to Programming",
-    lectureId: "CSE101",
-    department: "Computer Science",
-    image: imageUrl,
-    lecturerId: "L1", // Linked to Dr. Alice Smith
+    department: departments[0],
+    images: [imageUrl],
+    lecturer: lecturers[4],
   },
   {
     name: "Data Structures and Algorithms",
-    lectureId: "CSE202",
-    department: "Computer Science",
-    image: imageUrl,
-    lecturerId: "L1", // Linked to Dr. Alice Smith
+    department: departments[0],
+    images: [imageUrl],
+    lecturer: lecturers[4],
   },
   {
     name: "Calculus I",
-    lectureId: "MTH101",
-    department: "Mathematics",
-    image: imageUrl,
-    lecturerId: "L2", // Linked to Dr. Bob Johnson
+    department: departments[4],
+    images: [imageUrl],
+    lecturer: lecturers[1],
   },
   {
     name: "Organic Chemistry",
-    lectureId: "CHEM201",
-    department: "Chemistry",
-    image: imageUrl,
-    lecturerId: "L3", // Linked to Dr. Charlie Davis
+    department: departments[5],
+    images: [imageUrl],
+    lecturer: lecturers[2],
   },
   {
     name: "Introduction to Physics",
-    lectureId: "PHY101",
-    department: "Physics",
-    image: imageUrl,
-    lecturerId: "L4", // Linked to Dr. Emily White
+    department: departments[2],
+    images: [imageUrl],
+    lecturer: lecturers[3],
   },
   {
     name: "Psychology 101",
-    lectureId: "PSY101",
-    department: "Psychology",
-    image: imageUrl,
-    lecturerId: "L5", // Linked to Dr. David Brown
-  },
-  {
-    name: "World History",
-    lectureId: "HIS101",
-    department: "History",
-    image: imageUrl,
-    lecturerId: "L6", // Linked to Dr. George Clark
-  },
-  {
-    name: "Business Management",
-    lectureId: "BUS101",
-    department: "Business",
-    image: imageUrl,
-    lecturerId: "L7", // Linked to Dr. Fiona Green
-  },
-  {
-    name: "Microeconomics",
-    lectureId: "ECO101",
-    department: "Economics",
-    image: imageUrl,
-    lecturerId: "L8", // Linked to Dr. Henry Lee
-  },
-  {
-    name: "Digital Marketing",
-    lectureId: "MKT301",
-    department: "Marketing",
-    image: imageUrl,
-    lecturerId: "L9", // Linked to Dr. Irene Walker
-  },
-  {
-    name: "Introduction to Sociology",
-    lectureId: "SOC101",
-    department: "Sociology",
-    image: imageUrl,
-    lecturerId: "L10", // Linked to Dr. Jack Evans
-  },
-  {
-    name: "Graphic Design Basics",
-    lectureId: "DES101",
-    department: "Design",
-    image: imageUrl,
-    lecturerId: "L11", // Linked to Dr. Karen Taylor
+    department: departments[3],
+    images: [imageUrl],
+    lecturer: lecturers[4],
   },
 ];
 
-// Function to return courses
+export function getDepartments() {
+  return departments;
+}
+
 export function getCourses() {
   return courses;
 }
 
-// Function to return lecturers
 export function getLecturers() {
   return lecturers;
 }
