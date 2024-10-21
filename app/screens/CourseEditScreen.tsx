@@ -34,9 +34,10 @@ export default () => {
 
     setUploadVisible(true);
     setProgress(0);
+    const images = await imageStorage.saveImages(info.images);
     const res = await coursesApi.addCourse(
       {
-        images: await imageStorage.saveImages(info.images),
+        images,
         category: (category as Item).value,
         title,
         description,
@@ -44,9 +45,11 @@ export default () => {
       setProgress
     );
 
-    res.ok
-      ? Toast.success("Courses created successfully")
-      : Toast.error("Something went wrong! Course isn't saveds");
+    if (res.ok) Toast.success("Courses created successfully");
+    else {
+      Toast.error("Something went wrong! Course isn't saved");
+      imageStorage.deleteImages(images);
+    }
   };
 
   return (
