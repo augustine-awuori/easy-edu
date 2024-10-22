@@ -34,13 +34,14 @@ export default () => {
   const { departments } = useDepartments();
 
   const handleSubmit = async (info: CourseInfo) => {
+    setUploadVisible(true);
+    setProgress(0);
+    if (error) setError("");
+
+    const images = await imageStorage.saveImages(info.images);
+
     try {
       const { category, title, description } = info;
-
-      setUploadVisible(true);
-      setProgress(0);
-      if (error) setError("");
-      const images = await imageStorage.saveImages(info.images);
       const res = await coursesApi.addCourse(
         {
           images,
@@ -61,6 +62,7 @@ export default () => {
     } catch (error) {
       setUploadVisible(false);
       setError("Something went wrong");
+      imageStorage.deleteImages(images);
     }
   };
 
