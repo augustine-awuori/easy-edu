@@ -5,12 +5,11 @@ import ToastManager, { Toast } from "toastify-react-native";
 import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
 import { authTokenKey, processResponse } from "./app/api/client";
 import { Course, fetchCourses } from "./app/hooks/useCourses";
-import { Department } from "./app/hooks/useDepartments";
+import { Department, fetchDepartments } from "./app/hooks/useDepartments";
 import { DepartmentContext } from "./app/contexts";
 import { useUser } from "./app/hooks";
 import auth from "./app/api/auth";
 import CourseContext from "./app/contexts/CoursesContext";
-import departmentsApi from "./app/api/departments";
 import usersApi from "./app/api/users";
 
 export default function App() {
@@ -20,9 +19,7 @@ export default function App() {
 
   useEffect(() => {
     async function initDepartments() {
-      const fetched = await fetchDepartments();
-
-      if (fetched?.length) setDepartments(fetched);
+      setDepartments(await fetchDepartments());
     }
 
     async function initCourses() {
@@ -58,14 +55,6 @@ export default function App() {
 
     authUser();
   }, [user]);
-
-  async function fetchDepartments(): Promise<Department[] | undefined> {
-    const res = await departmentsApi.getAllDepartments();
-
-    if (res.ok) return res.data as Department[];
-
-    Toast.error("Error fetching departments.");
-  }
 
   return (
     <DepartmentContext.Provider value={{ departments, setDepartments }}>
