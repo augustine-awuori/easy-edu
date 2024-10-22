@@ -17,7 +17,9 @@ export default function App() {
 
   useEffect(() => {
     async function initDepartments() {
-      setDepartments((await fetchDepartments()) || getDepartments());
+      const fetched = await fetchDepartments();
+
+      setDepartments(fetched?.length ? fetched : getDepartments());
     }
 
     initDepartments();
