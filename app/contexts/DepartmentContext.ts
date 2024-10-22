@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { Department } from "../services/data";
+import { Department } from "../hooks/useDepartments";
 
 export interface ContextValue {
   departments: Department[];

@@ -2,11 +2,10 @@ import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
-import { Course } from "../services/data";
-import { useCourses } from "../hooks";
 import Card from "../components/Card";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
+import useCourses, { Course } from "../hooks/useCourses";
 
 interface Props {
   navigation: NavigationProp<any>;

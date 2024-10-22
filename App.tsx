@@ -4,9 +4,9 @@ import ToastManager, { Toast } from "toastify-react-native";
 
 import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
 import { authTokenKey, processResponse } from "./app/api/client";
-import { Course, Department } from "./app/services/data";
+import { Course, fetchCourses } from "./app/hooks/useCourses";
+import { Department } from "./app/hooks/useDepartments";
 import { DepartmentContext } from "./app/contexts";
-import { fetchCourses } from "./app/hooks/useCourses";
 import { useUser } from "./app/hooks";
 import auth from "./app/api/auth";
 import CourseContext from "./app/contexts/CoursesContext";

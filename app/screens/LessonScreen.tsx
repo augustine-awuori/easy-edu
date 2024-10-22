@@ -2,7 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
-import { Course } from "../services/data";
+import { Course } from "../hooks/useCourses";
 import { ListItem } from "../components/lists";
 
 interface Props {

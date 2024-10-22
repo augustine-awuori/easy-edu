@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { Course } from "../services/data";
+import { Course } from "../hooks/useCourses";
 
 export interface ContextValue {
   courses: Course[];
