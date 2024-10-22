@@ -4,6 +4,7 @@ import { Toast } from "toastify-react-native";
 import * as Yup from "yup";
 
 import {
+  ErrorMessage,
   Form,
   FormField,
   AppFormPicker as Picker,
@@ -29,6 +30,7 @@ export type CourseInfo = Yup.InferType<typeof schema>;
 export default () => {
   const [progress, setProgress] = useState(0);
   const [uploadVisible, setUploadVisible] = useState(false);
+  const [error, setError] = useState("");
   const { departments } = useDepartments();
 
   const handleSubmit = async (info: CourseInfo) => {
@@ -36,6 +38,7 @@ export default () => {
 
     setUploadVisible(true);
     setProgress(0);
+    if (error) setError("");
     const images = await imageStorage.saveImages(info.images);
     const res = await coursesApi.addCourse(
       {
@@ -49,7 +52,9 @@ export default () => {
 
     if (res.ok) Toast.success("Courses created successfully");
     else {
-      Toast.error("Something went wrong! Course isn't saved");
+      const errorMessage = "Something went wrong! Course isn't saved";
+      Toast.error(errorMessage);
+      setError(errorMessage);
       imageStorage.deleteImages(images);
     }
   };
@@ -71,6 +76,7 @@ export default () => {
         validationSchema={schema}
       >
         <FormImagePicker name="images" />
+        <ErrorMessage error={error} visible={Boolean(error)} />
         <FormField maxLength={255} name="title" placeholder="Title" />
         <Picker
           name="category"
