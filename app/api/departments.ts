@@ -6,19 +6,19 @@ const cacheKey = "departments";
 
 const getAllDepartments = async (): Promise<Response> => {
   const result = cache.retrieve(cacheKey);
-  const successResponse: Response = { ok: true, data: result, problem: "" };
+  const successfulResponse: Response = { ok: true, data: result, problem: "" };
 
   try {
     const res = processResponse(await client.get(endpoint));
 
     if (res.ok) cache.store(cacheKey, res.data);
     else {
-      if (result) return successResponse;
+      if (result) return successfulResponse;
     }
 
     return res;
   } catch (error) {
-    return result ? successResponse : getFailedResponse(error);
+    return result ? successfulResponse : getFailedResponse(error);
   }
 };
 
