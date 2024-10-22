@@ -1,12 +1,24 @@
-import client, { getFailedResponse, processResponse } from "./client";
+import cache from "../utility/cache";
+import client, { getFailedResponse, processResponse, Response } from "./client";
 
 const endpoint = "/categories";
+const cacheKey = "departments";
 
-const getAllDepartments = async () => {
+const getAllDepartments = async (): Promise<Response> => {
+  const result = cache.retrieve(cacheKey);
+  const successResponse: Response = { ok: true, data: result, problem: "" };
+
   try {
-    return processResponse(await client.get(endpoint));
+    const res = processResponse(await client.get(endpoint));
+
+    if (res.ok) cache.store(cacheKey, res.data);
+    else {
+      if (result) return successResponse;
+    }
+
+    return res;
   } catch (error) {
-    return getFailedResponse(error);
+    return result ? successResponse : getFailedResponse(error);
   }
 };
 
