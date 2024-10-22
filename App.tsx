@@ -4,7 +4,7 @@ import ToastManager, { Toast } from "toastify-react-native";
 
 import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
 import { authTokenKey, processResponse } from "./app/api/client";
-import { Department, getDepartments } from "./app/services/data";
+import { Department } from "./app/services/data";
 import { DepartmentContext } from "./app/contexts";
 import { useUser } from "./app/hooks";
 import auth from "./app/api/auth";
@@ -19,7 +19,7 @@ export default function App() {
     async function initDepartments() {
       const fetched = await fetchDepartments();
 
-      setDepartments(fetched?.length ? fetched : getDepartments());
+      if (fetched?.length) setDepartments(fetched);
     }
 
     initDepartments();

@@ -34,28 +34,33 @@ export default () => {
   const { departments } = useDepartments();
 
   const handleSubmit = async (info: CourseInfo) => {
-    const { category, title, description } = info;
+    try {
+      const { category, title, description } = info;
 
-    setUploadVisible(true);
-    setProgress(0);
-    if (error) setError("");
-    const images = await imageStorage.saveImages(info.images);
-    const res = await coursesApi.addCourse(
-      {
-        images,
-        category: (category as Item)._id,
-        title,
-        description,
-      },
-      setProgress
-    );
+      setUploadVisible(true);
+      setProgress(0);
+      if (error) setError("");
+      const images = await imageStorage.saveImages(info.images);
+      const res = await coursesApi.addCourse(
+        {
+          images,
+          category: (category as Item)._id,
+          title,
+          description,
+        },
+        setProgress
+      );
 
-    if (res.ok) Toast.success("Courses created successfully");
-    else {
-      const errorMessage = "Something went wrong! Course isn't saved";
-      Toast.error(errorMessage);
-      setError(errorMessage);
-      imageStorage.deleteImages(images);
+      if (res.ok) Toast.success("Courses created successfully");
+      else {
+        const errorMessage = "Something went wrong! Course isn't saved";
+        Toast.error(errorMessage);
+        setError(errorMessage);
+        imageStorage.deleteImages(images);
+      }
+    } catch (error) {
+      setUploadVisible(false);
+      setError("Something went wrong");
     }
   };
 

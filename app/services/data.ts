@@ -136,10 +136,6 @@ const courses: Course[] = [
   },
 ];
 
-export function getDepartments() {
-  return departments;
-}
-
 export function getCourses() {
   return courses;
 }
