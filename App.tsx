@@ -4,15 +4,18 @@ import ToastManager, { Toast } from "toastify-react-native";
 
 import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
 import { authTokenKey, processResponse } from "./app/api/client";
-import { Department } from "./app/services/data";
+import { Course, Department } from "./app/services/data";
 import { DepartmentContext } from "./app/contexts";
+import { fetchCourses } from "./app/hooks/useCourses";
 import { useUser } from "./app/hooks";
 import auth from "./app/api/auth";
+import CourseContext from "./app/contexts/CoursesContext";
 import departmentsApi from "./app/api/departments";
 import usersApi from "./app/api/users";
 
 export default function App() {
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const { user, setUser } = useUser();
 
   useEffect(() => {
@@ -22,6 +25,11 @@ export default function App() {
       if (fetched?.length) setDepartments(fetched);
     }
 
+    async function initCourses() {
+      setCourses(await fetchCourses());
+    }
+
+    initCourses();
     initDepartments();
   }, []);
 
@@ -61,10 +69,12 @@ export default function App() {
 
   return (
     <DepartmentContext.Provider value={{ departments, setDepartments }}>
-      <NavigationContainer theme={navigationTheme}>
-        <ToastManager />
-        {user ? <AppNavigator /> : <AuthNavigator />}
-      </NavigationContainer>
+      <CourseContext.Provider value={{ courses, setCourses }}>
+        <NavigationContainer theme={navigationTheme}>
+          <ToastManager />
+          {user ? <AppNavigator /> : <AuthNavigator />}
+        </NavigationContainer>
+      </CourseContext.Provider>
     </DepartmentContext.Provider>
   );
 }

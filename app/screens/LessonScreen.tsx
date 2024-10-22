@@ -2,7 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
-import { Course, findLecturerById } from "../services/data";
+import { Course } from "../services/data";
 import { ListItem } from "../components/lists";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default ({ route }: Props) => {
-  const { department, images, lecturer, name } = route.params as Course;
+  const { department, images, lecturer, title: name } = route.params as Course;
 
   return (
     <View style={styles.container}>

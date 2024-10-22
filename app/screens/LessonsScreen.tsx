@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
-import { Course, getCourses } from "../services/data";
+import { Course } from "../services/data";
+import { useCourses } from "../hooks";
 import Card from "../components/Card";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
@@ -12,11 +13,7 @@ interface Props {
 }
 
 export default ({ navigation }: Props) => {
-  const [courses, setCourses] = useState<Course[]>([]);
-
-  useEffect(() => {
-    setCourses(getCourses());
-  }, []);
+  const { courses } = useCourses();
 
   const viewCourse = (course: Course) =>
     navigation.navigate(routes.LESSON, course);
@@ -24,11 +21,11 @@ export default ({ navigation }: Props) => {
   return (
     <FlatList
       data={courses}
-      keyExtractor={(c) => c.name}
+      keyExtractor={(c) => c._id}
       style={styles.container}
       renderItem={({ item }) => (
         <Card
-          title={item.name}
+          title={item.title}
           subTitle={item.department.label}
           onPress={() => viewCourse(item)}
           imageUrl={item.images[0]}

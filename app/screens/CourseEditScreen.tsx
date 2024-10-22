@@ -19,7 +19,7 @@ import Screen from "../components/Screen";
 import UploadScreen from "./UploadScreen";
 
 const schema = Yup.object().shape({
-  category: Yup.object().required().nullable().label("Category").required(),
+  department: Yup.object().required().nullable().label("Category").required(),
   description: Yup.string().label("Description"),
   images: Yup.array().min(1, "Please select at least one image.").required(),
   title: Yup.string().required().min(1).label("Title"),
@@ -41,11 +41,11 @@ export default () => {
     const images = await imageStorage.saveImages(info.images);
 
     try {
-      const { category, title, description } = info;
+      const { department: department, title, description } = info;
       const res = await coursesApi.addCourse(
         {
           images,
-          category: (category as Item)._id,
+          department: (department as Item)._id,
           title,
           description,
         },
@@ -77,7 +77,7 @@ export default () => {
         initialValues={{
           title: "",
           description: "",
-          category: "",
+          department: "",
         }}
         onSubmit={(values) => handleSubmit(values as unknown as CourseInfo)}
         validationSchema={schema}
@@ -86,7 +86,7 @@ export default () => {
         <ErrorMessage error={error} visible={Boolean(error)} />
         <FormField maxLength={255} name="title" placeholder="Title" />
         <Picker
-          name="category"
+          name="department"
           items={departments}
           placeholder="Course Category"
         />

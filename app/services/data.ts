@@ -11,7 +11,8 @@ export interface Department {
 }
 
 export interface Course {
-  name: string;
+  _id: string;
+  title: string;
   department: Department;
   images: string[];
   lecturer: Lecturer;
@@ -96,49 +97,6 @@ export const departments: Department[] = [
   { _id: "5", label: "Mathematics" },
   { _id: "6", label: "Chemistry" },
 ];
-
-const courses: Course[] = [
-  {
-    name: "Introduction to Programming",
-    department: departments[0],
-    images: [imageUrl],
-    lecturer: lecturers[4],
-  },
-  {
-    name: "Data Structures and Algorithms",
-    department: departments[0],
-    images: [imageUrl],
-    lecturer: lecturers[4],
-  },
-  {
-    name: "Calculus I",
-    department: departments[4],
-    images: [imageUrl],
-    lecturer: lecturers[1],
-  },
-  {
-    name: "Organic Chemistry",
-    department: departments[5],
-    images: [imageUrl],
-    lecturer: lecturers[2],
-  },
-  {
-    name: "Introduction to Physics",
-    department: departments[2],
-    images: [imageUrl],
-    lecturer: lecturers[3],
-  },
-  {
-    name: "Psychology 101",
-    department: departments[3],
-    images: [imageUrl],
-    lecturer: lecturers[4],
-  },
-];
-
-export function getCourses() {
-  return courses;
-}
 
 export function getLecturers() {
   return lecturers;
