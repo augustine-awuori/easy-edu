@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { LessonScreen, LessonsScreen } from "../screens";
+import { CourseScreen, CoursesScreen } from "../screens";
 import routes from "./routes";
 
 const Stack = createNativeStackNavigator();
@@ -15,10 +15,10 @@ const LessonsNavigator = () => (
   >
     <Stack.Screen
       name={routes.LESSONS}
-      component={LessonsScreen}
+      component={CoursesScreen}
       options={{ title: "All Lessons" }}
     />
-    <Stack.Screen name={routes.LESSON} component={LessonScreen} />
+    <Stack.Screen name={routes.LESSON} component={CourseScreen} />
   </Stack.Navigator>
 );
 
