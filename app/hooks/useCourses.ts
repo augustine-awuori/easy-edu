@@ -15,10 +15,9 @@ export interface Course {
 
 const useCourses = () => {
   const context = React.useContext(CourseContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   async function fetchCourses(): Promise<Course[]> {
-    setLoading(true);
     const res = await coursesApi.getAllCourses();
     setLoading(false);
 

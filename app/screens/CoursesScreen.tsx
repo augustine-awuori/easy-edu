@@ -23,21 +23,19 @@ export default ({ navigation }: Props) => {
   const viewCourse = (course: Course) =>
     navigation.navigate(routes.LESSON, course);
 
-  if (loading) {
+  if (loading && !courses.length)
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
-  }
 
-  if (!courses.length) {
+  if (!courses.length && !loading)
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>No courses available.</Text>
       </View>
     );
-  }
 
   return (
     <FlatList
