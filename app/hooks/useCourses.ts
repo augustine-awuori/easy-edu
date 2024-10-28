@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Department } from "./useDepartments";
 import { Lecturer } from "../services/data";
@@ -13,12 +13,19 @@ export interface Course {
   lecturer: Lecturer;
 }
 
-export async function fetchCourses(): Promise<Course[]> {
-  const res = await coursesApi.getAllCourses();
+const useCourses = () => {
+  const context = React.useContext(CourseContext);
+  const [loading, setLoading] = useState(false);
 
-  return res.ok ? (res.data as Course[]) : [];
-}
+  async function fetchCourses(): Promise<Course[]> {
+    setLoading(true);
+    const res = await coursesApi.getAllCourses();
+    setLoading(false);
 
-const useCourses = () => React.useContext(CourseContext);
+    return res.ok ? (res.data as Course[]) : [];
+  }
+
+  return { ...context, loading, fetchCourses };
+};
 
 export default useCourses;

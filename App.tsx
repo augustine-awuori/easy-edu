@@ -4,10 +4,10 @@ import ToastManager, { Toast } from "toastify-react-native";
 
 import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
 import { authTokenKey, processResponse } from "./app/api/client";
-import { Course, fetchCourses } from "./app/hooks/useCourses";
+import { Course } from "./app/hooks/useCourses";
 import { Department, fetchDepartments } from "./app/hooks/useDepartments";
 import { DepartmentContext } from "./app/contexts";
-import { useUser } from "./app/hooks";
+import { useCourses, useUser } from "./app/hooks";
 import auth from "./app/api/auth";
 import CourseContext from "./app/contexts/CoursesContext";
 import usersApi from "./app/api/users";
@@ -16,6 +16,7 @@ export default function App() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const { user, setUser } = useUser();
+  const { fetchCourses } = useCourses();
 
   useEffect(() => {
     async function initDepartments() {

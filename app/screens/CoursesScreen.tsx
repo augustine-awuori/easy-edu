@@ -1,5 +1,11 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
 import Card from "../components/Card";
@@ -12,10 +18,26 @@ interface Props {
 }
 
 export default ({ navigation }: Props) => {
-  const { courses } = useCourses();
+  const { courses, loading } = useCourses();
 
   const viewCourse = (course: Course) =>
     navigation.navigate(routes.LESSON, course);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
+
+  if (!courses.length) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>No courses available.</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -39,5 +61,29 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.light,
     padding: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  errorText: {
+    color: colors.danger,
+    fontSize: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    fontSize: 18,
+    color: colors.medium,
   },
 });
