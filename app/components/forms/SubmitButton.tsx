@@ -10,7 +10,7 @@ interface Props {
 function SubmitButton({ title }: Props) {
   const { handleSubmit } = useFormikContext();
 
-  return <AppButton title={title} onPress={handleSubmit} />;
+  return <AppButton title={title} onPress={handleSubmit} color="secondary" />;
 }
 
 export default SubmitButton;

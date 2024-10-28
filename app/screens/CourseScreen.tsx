@@ -5,7 +5,7 @@ import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { Course } from "../hooks/useCourses";
 import { ListItem } from "../components/lists";
 import Button from "../components/Button";
-import LessonForm from "../components/LessonForm";
+import LessonUploadForm from "../components/LessonUploadForm";
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -14,7 +14,7 @@ interface Props {
 
 export default ({ route }: Props) => {
   const [addingLesson, setAddingLesson] = useState(false);
-  const { department, images, lecturer, title } = route.params as Course;
+  const { _id, department, images, lecturer, title } = route.params as Course;
 
   const addLesson = () => {
     setAddingLesson(true);
@@ -24,8 +24,12 @@ export default ({ route }: Props) => {
   return (
     <ScrollView>
       <Modal visible={addingLesson}>
-        <LessonForm onDone={() => setAddingLesson(false)} />
+        <LessonUploadForm
+          courseId={_id}
+          onDone={() => setAddingLesson(false)}
+        />
       </Modal>
+
       <Image style={styles.image} source={{ uri: images[0] }} />
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>
