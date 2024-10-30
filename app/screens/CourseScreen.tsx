@@ -1,29 +1,61 @@
-import React, { useState } from "react";
-import { Image, Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  Image,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
-import { Course } from "../hooks/useCourses";
 import { ListItem } from "../components/lists";
+import { useUser } from "../hooks";
+import ActivityIndicator from "../components/ActivityIndicator";
 import Button from "../components/Button";
-import LessonUploadForm from "../components/LessonUploadForm";
+import LessonUploadForm, { NewLesson } from "../components/LessonUploadForm";
+import useCourses, { Course } from "../hooks/useCourses";
 
 interface Props {
   navigation: NavigationProp<any>;
   route: RouteProp<any>;
 }
 
-export default ({ route }: Props) => {
-  const [addingLesson, setAddingLesson] = useState(false);
-  const { _id, department, images, lecturer, title } = route.params as Course;
+export interface Lesson extends NewLesson {
+  _id: string;
+  course: Course;
+}
 
-  const addLesson = () => {
-    setAddingLesson(true);
-    // setAddingLesson(false);
-  };
+export default ({ route }: Props) => {
+  const { _id, department, images, lecturer, title } = route.params as Course;
+  const [addingLesson, setAddingLesson] = useState(false);
+  const { fetchCourseLessons } = useCourses();
+  const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useUser();
+
+  useEffect(() => {
+    const initLessons = async () => {
+      setLessons(await fetchCourseLessons(_id));
+      setLoading(false);
+    };
+
+    initLessons();
+  }, [_id]);
+
+  const renderLesson = ({ item }: { item: Lesson }) => (
+    <View style={styles.lessonContainer}>
+      <Text style={styles.lessonTitle}>{item.title}</Text>
+      <Text style={styles.lessonNotes} numberOfLines={2}>
+        {item.notes}
+      </Text>
+    </View>
+  );
 
   return (
     <ScrollView>
-      <Modal visible={addingLesson}>
+      <Modal visible={addingLesson} animationType="slide">
         <LessonUploadForm
           courseId={_id}
           onDone={() => setAddingLesson(false)}
@@ -45,9 +77,36 @@ export default ({ route }: Props) => {
           />
         </View>
       </View>
-      <View style={styles.buttonsContainer}>
-        <Button onPress={addLesson} title="Add Lesson" color="secondary" />
-      </View>
+
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          data={lessons}
+          keyExtractor={(lesson) => lesson._id}
+          renderItem={renderLesson}
+          contentContainerStyle={styles.listContainer}
+          ListEmptyComponent={<Text>No lessons available.</Text>}
+        />
+      )}
+
+      {user?.uid === lecturer.id ? (
+        <View style={styles.buttonsContainer}>
+          <Button
+            onPress={() => setAddingLesson(true)}
+            title="Add Lesson"
+            color="secondary"
+          />
+        </View>
+      ) : (
+        <View style={styles.buttonsContainer}>
+          <Button
+            onPress={() => console.log(true)}
+            title="Complete Course"
+            color="secondary"
+          />
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -69,6 +128,33 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   userContainer: {
+    marginVertical: 10,
+  },
+  listContainer: {
+    padding: 20,
+  },
+  lessonContainer: {
+    marginBottom: 16,
+    padding: 16,
+    borderRadius: 8,
+    backgroundColor: "#f9f9f9",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  lessonTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  lessonNotes: {
+    fontSize: 14,
+    color: "#555",
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
     marginVertical: 10,
   },
 });

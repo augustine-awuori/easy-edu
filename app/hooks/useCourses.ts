@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
+import { CoursesContext } from "../contexts";
 import { Department } from "./useDepartments";
 import { Lecturer } from "../services/data";
-import CourseContext from "../contexts/CoursesContext";
+import { Lesson } from "../screens/CourseScreen";
 import coursesApi from "../api/courses";
+import lessonsApi from "../api/lessons";
 
 export interface Course {
   _id: string;
@@ -14,7 +16,7 @@ export interface Course {
 }
 
 const useCourses = () => {
-  const context = React.useContext(CourseContext);
+  const context = React.useContext(CoursesContext);
   const [loading, setLoading] = useState(true);
 
   async function fetchCourses(): Promise<Course[]> {
@@ -24,7 +26,13 @@ const useCourses = () => {
     return res.ok ? (res.data as Course[]) : [];
   }
 
-  return { ...context, loading, fetchCourses };
+  async function fetchCourseLessons(courseId: string): Promise<Lesson[]> {
+    const res = await lessonsApi.getLessons(courseId);
+
+    return res.ok ? (res.data as Lesson[]) : [];
+  }
+
+  return { ...context, loading, fetchCourses, fetchCourseLessons };
 };
 
 export default useCourses;

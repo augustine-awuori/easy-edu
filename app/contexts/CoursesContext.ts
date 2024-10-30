@@ -7,11 +7,11 @@ export interface ContextValue {
   setCourses: (courses: Course[]) => void;
 }
 
-export const CourseContext = createContext<ContextValue>({
+export const CoursesContext = createContext<ContextValue>({
   courses: [],
   setCourses: () => {},
 });
 
-CourseContext.displayName = "Course Context";
+CoursesContext.displayName = "Course Context";
 
-export default CourseContext;
+export default CoursesContext;

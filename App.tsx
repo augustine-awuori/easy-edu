@@ -9,7 +9,7 @@ import { Department, fetchDepartments } from "./app/hooks/useDepartments";
 import { DepartmentContext } from "./app/contexts";
 import { useCourses, useUser } from "./app/hooks";
 import auth from "./app/api/auth";
-import CourseContext from "./app/contexts/CoursesContext";
+import CoursesContext from "./app/contexts/CoursesContext";
 import usersApi from "./app/api/users";
 
 export default function App() {
@@ -59,12 +59,12 @@ export default function App() {
 
   return (
     <DepartmentContext.Provider value={{ departments, setDepartments }}>
-      <CourseContext.Provider value={{ courses, setCourses }}>
+      <CoursesContext.Provider value={{ courses, setCourses }}>
         <NavigationContainer theme={navigationTheme}>
           <ToastManager />
           {user ? <AppNavigator /> : <AuthNavigator />}
         </NavigationContainer>
-      </CourseContext.Provider>
+      </CoursesContext.Provider>
     </DepartmentContext.Provider>
   );
 }

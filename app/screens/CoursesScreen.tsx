@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
+import ActivityIndicator from "../components/ActivityIndicator";
 import Card from "../components/Card";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
@@ -23,12 +18,7 @@ export default ({ navigation }: Props) => {
   const viewCourse = (course: Course) =>
     navigation.navigate(routes.LESSON, course);
 
-  if (loading && !courses.length)
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
+  if (loading && !courses.length) return <ActivityIndicator />;
 
   if (!courses.length && !loading)
     return (
@@ -60,11 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     padding: 10,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   errorContainer: {
     flex: 1,
     justifyContent: "center",
