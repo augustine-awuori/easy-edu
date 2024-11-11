@@ -32,7 +32,15 @@ const useCourses = () => {
     return res.ok ? (res.data as Lesson[]) : [];
   }
 
-  return { ...context, loading, fetchCourses, fetchCourseLessons };
+  async function completeCourseLesson(lessonId: string) {}
+
+  return {
+    ...context,
+    completeCourseLesson,
+    loading,
+    fetchCourses,
+    fetchCourseLessons,
+  };
 };
 
 export default useCourses;

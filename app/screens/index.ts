@@ -3,6 +3,7 @@ export { default as CourseEditScreen } from "./CourseEditScreen";
 export { default as CourseScreen } from "./CourseScreen";
 export { default as CoursesScreen } from "./CoursesScreen";
 export { default as HomeScreen } from "./HomeScreen";
+export { default as LessonScreen } from "./LessonScreen";
 export { default as LoginScreen } from "./LoginScreen";
 export { default as RegisterScreen } from "./RegisterScreen";
 export { default as SplashScreen } from "./SplashScreen";

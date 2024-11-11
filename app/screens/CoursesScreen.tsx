@@ -16,7 +16,7 @@ export default ({ navigation }: Props) => {
   const { courses, loading } = useCourses();
 
   const viewCourse = (course: Course) =>
-    navigation.navigate(routes.LESSON, course);
+    navigation.navigate(routes.COURSE, course);
 
   if (loading && !courses.length) return <ActivityIndicator />;
 

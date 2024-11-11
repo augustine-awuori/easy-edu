@@ -22,7 +22,7 @@ type MenuItem = {
 const menuItems: MenuItem[] = [
   {
     title: "My Lessons",
-    targetScreen: routes.LESSONS,
+    targetScreen: routes.COURSES,
     icon: {
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
@@ -54,9 +54,9 @@ const AccountScreen: React.FC<Props> = ({ navigation }) => {
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title={user?.displayName || "No name"}
+          title={user?.name || "No name"}
           subTitle={user?.email || "No email"}
-          image={user?.photoURL || require("../assets/background.jpg")}
+          image={user?.profileImage || require("../assets/background.jpg")}
         />
       </View>
       <View style={styles.container}>

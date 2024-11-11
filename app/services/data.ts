@@ -1,5 +1,5 @@
 export interface Lecturer {
-  id: string;
+  _id: string;
   name: string;
   department: string;
   profileImage: string;

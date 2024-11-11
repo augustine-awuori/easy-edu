@@ -6,8 +6,9 @@ import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
 import { authTokenKey, processResponse } from "./app/api/client";
 import { Course } from "./app/hooks/useCourses";
 import { Department, fetchDepartments } from "./app/hooks/useDepartments";
-import { DepartmentContext } from "./app/contexts";
+import { DepartmentContext, UserContext } from "./app/contexts";
 import { useCourses, useUser } from "./app/hooks";
+import { User } from "./app/hooks/useUser";
 import auth from "./app/api/auth";
 import CoursesContext from "./app/contexts/CoursesContext";
 import usersApi from "./app/api/users";
@@ -15,7 +16,8 @@ import usersApi from "./app/api/users";
 export default function App() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
-  const { user, setUser } = useUser();
+  const [user, setUser] = useState<User>();
+  const { googleUser } = useUser();
   const { fetchCourses } = useCourses();
 
   useEffect(() => {
@@ -33,38 +35,41 @@ export default function App() {
 
   useEffect(() => {
     async function quickAuth() {
-      if (!user) return;
-      const { displayName: name, email, photoURL: profileImage } = user;
+      if (!googleUser) return;
+      const { displayName: name, email, photoURL: profileImage } = googleUser;
       if (!email || !name || !profileImage) return;
       const res = await usersApi.quickAuth({ email, name, profileImage });
       if (!res) return Toast.error("Couldn't extend your session");
 
       const { ok } = processResponse(res);
-      ok
-        ? auth.loginWithJwt(res.headers[authTokenKey])
-        : Toast.error("Couldn't extend your session");
+      if (!ok) return Toast.error("Couldn't extend your session");
+
+      auth.loginWithJwt(res.headers[authTokenKey]);
+      const user = auth.getCurrentUser();
+      if (user) setUser(user);
     }
 
     async function authUser() {
+      if (user) return;
+
       const cachedUser = auth.getCurrentUser();
-      if (!user && !cachedUser) return;
 
-      if (cachedUser && !user) return setUser(cachedUser);
-
-      quickAuth();
+      cachedUser ? setUser(cachedUser) : quickAuth();
     }
 
     authUser();
-  }, [user]);
+  }, [user, googleUser]);
 
   return (
-    <DepartmentContext.Provider value={{ departments, setDepartments }}>
-      <CoursesContext.Provider value={{ courses, setCourses }}>
-        <NavigationContainer theme={navigationTheme}>
-          <ToastManager />
-          {user ? <AppNavigator /> : <AuthNavigator />}
-        </NavigationContainer>
-      </CoursesContext.Provider>
-    </DepartmentContext.Provider>
+    <UserContext.Provider value={{ setUser, user }}>
+      <DepartmentContext.Provider value={{ departments, setDepartments }}>
+        <CoursesContext.Provider value={{ courses, setCourses }}>
+          <NavigationContainer theme={navigationTheme}>
+            <ToastManager />
+            {user ? <AppNavigator /> : <AuthNavigator />}
+          </NavigationContainer>
+        </CoursesContext.Provider>
+      </DepartmentContext.Provider>
+    </UserContext.Provider>
   );
 }

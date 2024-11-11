@@ -11,7 +11,12 @@ import {
 import { auth } from "../auth/config";
 import { UserContext } from "../contexts";
 
-export interface User extends GoogleUser {}
+export interface User {
+  _id: string;
+  email: string;
+  name: string;
+  profileImage: string;
+}
 
 const useUser = () => {
   const context = useContext(UserContext);
@@ -27,7 +32,7 @@ const useUser = () => {
 
   return {
     ...context,
-    user: googleUser,
+    googleUser,
     loginWithEmailAndPassword,
     loginWithGoogle,
     logout,

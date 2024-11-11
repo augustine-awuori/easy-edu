@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AccountScreen, CourseEditScreen } from "../screens";
-import LessonsNavigator from "./LessonsNavigator";
+import colors from "../config/colors";
+import CoursesNavigator from "./CoursesNavigator";
 import NewCourseButton from "./NewCourseButton";
 import routes from "./routes";
-import colors from "../config/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,13 +22,13 @@ const AppNavigator = () => (
     }}
   >
     <Tab.Screen
-      name={routes.LESSONS_NAVIGATOR}
-      component={LessonsNavigator}
+      name={routes.COURSES_NAVIGATOR}
+      component={CoursesNavigator}
       options={{
         tabBarIcon: ({ size, color }) => (
           <FontAwesome name="home" size={size} color={color} />
         ),
-        title: "Lessons",
+        title: "Courses",
       }}
     />
     <Tab.Screen

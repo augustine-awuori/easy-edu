@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -16,8 +17,9 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import Button from "../components/Button";
 import LessonUploadForm, { NewLesson } from "../components/LessonUploadForm";
 import useCourses, { Course } from "../hooks/useCourses";
+import routes from "../navigation/routes";
 
-interface Props {
+export interface ScreenProps {
   navigation: NavigationProp<any>;
   route: RouteProp<any>;
 }
@@ -27,7 +29,7 @@ export interface Lesson extends NewLesson {
   course: Course;
 }
 
-export default ({ route }: Props) => {
+export default ({ navigation, route }: ScreenProps) => {
   const { _id, department, images, lecturer, title } = route.params as Course;
   const [addingLesson, setAddingLesson] = useState(false);
   const { fetchCourseLessons } = useCourses();
@@ -45,12 +47,15 @@ export default ({ route }: Props) => {
   }, [_id]);
 
   const renderLesson = ({ item }: { item: Lesson }) => (
-    <View style={styles.lessonContainer}>
+    <TouchableOpacity
+      style={styles.lessonContainer}
+      onPress={() => navigation.navigate(routes.LESSON, route.params)}
+    >
       <Text style={styles.lessonTitle}>{item.title}</Text>
       <Text style={styles.lessonNotes} numberOfLines={2}>
         {item.notes}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -90,19 +95,11 @@ export default ({ route }: Props) => {
         />
       )}
 
-      {user?.uid === lecturer.id ? (
+      {user?._id === lecturer._id && (
         <View style={styles.buttonsContainer}>
           <Button
             onPress={() => setAddingLesson(true)}
             title="Add Lesson"
-            color="secondary"
-          />
-        </View>
-      ) : (
-        <View style={styles.buttonsContainer}>
-          <Button
-            onPress={() => console.log(true)}
-            title="Complete Course"
             color="secondary"
           />
         </View>
