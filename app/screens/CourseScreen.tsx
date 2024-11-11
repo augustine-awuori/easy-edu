@@ -46,14 +46,14 @@ export default ({ navigation, route }: ScreenProps) => {
     initLessons();
   }, [_id]);
 
-  const renderLesson = ({ item }: { item: Lesson }) => (
+  const renderLesson = ({ item: lesson }: { item: Lesson }) => (
     <TouchableOpacity
       style={styles.lessonContainer}
-      onPress={() => navigation.navigate(routes.LESSON, route.params)}
+      onPress={() => navigation.navigate(routes.LESSON, lesson)}
     >
-      <Text style={styles.lessonTitle}>{item.title}</Text>
+      <Text style={styles.lessonTitle}>{lesson.title}</Text>
       <Text style={styles.lessonNotes} numberOfLines={2}>
-        {item.notes}
+        {lesson.notes}
       </Text>
     </TouchableOpacity>
   );

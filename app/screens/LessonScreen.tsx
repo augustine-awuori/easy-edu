@@ -1,50 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
-import useCourses from "../hooks/useCourses";
 import { Lesson, ScreenProps } from "./CourseScreen";
 
 const LessonDetailScreen = ({ route }: ScreenProps) => {
-  //   const { lessonId } = route.params;
-  const lessonId = "";
-  const {} = useCourses();
-  const [lesson, setLesson] = useState<Lesson>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const loadLessonDetails = async () => {
-      //   try {
-      //     const fetchedLesson = await fetchLessonDetails(lessonId);
-      //     setLesson(fetchedLesson);
-      //   } catch (err) {
-      //     setError(true);
-      //   } finally {
-      //     setLoading(false);
-      //   }
-    };
-
-    loadLessonDetails();
-  }, [lessonId]);
-
-  if (loading)
-    return (
-      <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
-    );
-
-  if (error || !lesson) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Failed to load lesson details.</Text>
-      </View>
-    );
-  }
+  const lesson = route.params as Lesson;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{lesson.title}</Text>
-      <Text style={styles.notes}>{lesson.notes}</Text>
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.title}>{lesson.title}</Text>
+        <Text style={styles.notes}>{lesson.notes}</Text>
+      </View>
+    </ScrollView>
   );
 };
 
