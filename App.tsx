@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import ToastManager, { Toast } from "toastify-react-native";
+import ToastManager from "toastify-react-native";
 
 import { AppNavigator, AuthNavigator, navigationTheme } from "./app/navigation";
-import { authTokenKey, processResponse } from "./app/api/client";
 import { Course } from "./app/hooks/useCourses";
 import { Department, fetchDepartments } from "./app/hooks/useDepartments";
 import { DepartmentContext, UserContext } from "./app/contexts";
 import { useCourses, useUser } from "./app/hooks";
 import { User } from "./app/hooks/useUser";
-import auth from "./app/api/auth";
+import auth, { quickAuth } from "./app/api/auth";
 import CoursesContext from "./app/contexts/CoursesContext";
-import usersApi from "./app/api/users";
 
 export default function App() {
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -34,27 +32,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    async function quickAuth() {
-      if (!googleUser) return;
-      const { displayName: name, email, photoURL: profileImage } = googleUser;
-      if (!email || !name || !profileImage) return;
-      const res = await usersApi.quickAuth({ email, name, profileImage });
-      if (!res) return Toast.error("Couldn't extend your session");
-
-      const { ok } = processResponse(res);
-      if (!ok) return Toast.error("Couldn't extend your session");
-
-      auth.loginWithJwt(res.headers[authTokenKey]);
-      const user = auth.getCurrentUser();
-      if (user) setUser(user);
-    }
-
     async function authUser() {
       if (user) return;
 
-      const cachedUser = auth.getCurrentUser();
+      const cachedUser = auth.getCurrentUser() || (await quickAuth(googleUser));
 
-      cachedUser ? setUser(cachedUser) : quickAuth();
+      if (cachedUser) setUser(cachedUser);
     }
 
     authUser();

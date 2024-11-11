@@ -4,10 +4,11 @@ import * as Yup from "yup";
 
 import { Form, FormField, SubmitButton } from "../components/forms";
 import { NavigationProp } from "@react-navigation/native";
+import { quickAuth } from "../api/auth";
 import Button from "../components/Button";
 import colors from "../config/colors";
-import useUser from "../hooks/useUser";
 import routes from "../navigation/routes";
+import useUser from "../hooks/useUser";
 
 const schema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -21,7 +22,8 @@ interface Props {
 }
 
 function LoginScreen({ navigation }: Props) {
-  const { user, loginWithEmailAndPassword, loginWithGoogle } = useUser();
+  const { user, loginWithEmailAndPassword, loginWithGoogle, setUser } =
+    useUser();
 
   useEffect(() => {
     if (user) navigation.navigate(routes.HOME);
@@ -30,8 +32,11 @@ function LoginScreen({ navigation }: Props) {
   const handleLogin = async ({ email, password }: Info) =>
     await loginWithEmailAndPassword(email, password);
 
-  const handleRegistrationWithGoogle = async () => {
-    await loginWithGoogle();
+  const handleLoginWithGoogle = async () => {
+    const credentials = await loginWithGoogle();
+
+    const user = await quickAuth(credentials.user);
+    if (user) setUser(user);
   };
 
   const navigateToLoginScreen = () => navigation.navigate("register");
@@ -69,7 +74,7 @@ function LoginScreen({ navigation }: Props) {
         <SubmitButton title="Login" />
         <Button
           title="Sign in with Google"
-          onPress={handleRegistrationWithGoogle}
+          onPress={handleLoginWithGoogle}
           color="secondary"
         />
         <Text onPress={navigateToLoginScreen} style={styles.text}>
