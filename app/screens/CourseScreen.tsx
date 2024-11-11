@@ -27,6 +27,7 @@ export interface ScreenProps {
 export interface Lesson extends NewLesson {
   _id: string;
   course: Course;
+  students?: { [studentId: string]: string };
 }
 
 export default ({ navigation, route }: ScreenProps) => {

@@ -31,4 +31,12 @@ export const getAllCourses = async (): Promise<Response> => {
   }
 };
 
-export default { addCourse, getAllCourses };
+const updateCourse = async (courseId: string) => {
+  try {
+    return processResponse(await client.patch(`${endpoint}/${courseId}`));
+  } catch (error) {
+    return getFailedResponse(error);
+  }
+};
+
+export default { addCourse, getAllCourses, updateCourse };
