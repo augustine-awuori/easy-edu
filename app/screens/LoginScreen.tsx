@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Image, ImageBackground, Text } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
 import * as Yup from "yup";
 
 import { Form, FormField, SubmitButton } from "../components/forms";
-import { NavigationProp } from "@react-navigation/native";
 import { quickAuth } from "../api/auth";
 import Button from "../components/Button";
 import colors from "../config/colors";

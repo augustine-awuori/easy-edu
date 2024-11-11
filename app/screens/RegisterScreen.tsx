@@ -4,6 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import * as Yup from "yup";
 
 import { Form, FormField, SubmitButton } from "../components/forms";
+import { quickAuth } from "../api/auth";
 import Button from "../components/Button";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
@@ -21,14 +22,17 @@ interface Props {
 }
 
 function RegisterScreen({ navigation }: Props) {
-  const { user, loginWithEmailAndPassword, loginWithGoogle } = useUser();
+  const { user, loginWithEmailAndPassword, loginWithGoogle, setUser } =
+    useUser();
 
   useEffect(() => {
     if (user) navigation.navigate(routes.HOME);
   }, [user]);
 
   const handleRegistrationWithGoogle = async () => {
-    await loginWithGoogle();
+    const credentials = await loginWithGoogle();
+    const user = await quickAuth(credentials.user);
+    if (user) setUser(user);
   };
 
   const navigateToLoginScreen = () => navigation.navigate("login");
