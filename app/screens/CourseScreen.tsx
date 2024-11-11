@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   userContainer: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
   listContainer: {
     padding: 20,
