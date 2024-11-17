@@ -4,6 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { ListItem, ListItemSeparator } from "../components/lists";
+import auth from "../api/auth";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
 import routes from "../navigation/routes";
@@ -43,9 +44,16 @@ interface Props {
 }
 
 const AccountScreen: React.FC<Props> = ({ navigation }) => {
-  const { user, logout } = useUser();
+  const { user, logout, setUser } = useUser();
 
-  if (!user && navigation) {
+  const logOut = async () => {
+    await logout();
+    auth.logout();
+    setUser(undefined);
+    navigation.navigate(routes.HOME_NAVIGATOR);
+  };
+
+  if (!user) {
     navigation.navigate(routes.WELCOME);
     return null;
   }
@@ -80,7 +88,7 @@ const AccountScreen: React.FC<Props> = ({ navigation }) => {
         <ListItem
           title="Log Out"
           IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
-          onPress={async () => await logout()}
+          onPress={logOut}
         />
       </View>
     </Screen>

@@ -4,7 +4,7 @@ import { User } from "../hooks/useUser";
 
 export interface UserContextValue {
   user: User | undefined;
-  setUser: (user: User) => void;
+  setUser: (user: User | undefined) => void;
 }
 
 export const UserContext = createContext<UserContextValue>({
